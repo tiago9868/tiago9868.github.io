@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Sua Loja de Jogos Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+            --accent-color: #fd79a8;
+            --success-color: #00b894;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a2e;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fd79a8, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #fd79a8, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Filters Section */
+        .filters {
+            background: #2d3436;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .filters h3 {
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #636e72;
+            background: #2d3436;
+            color: var(--light-color);
+        }
+        
+        .view-options {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .view-btn {
+            background: #2d3436;
+            border: 1px solid #636e72;
+            color: var(--light-color);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .view-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .game-card {
+            background: #2d3436;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .game-card:hover .game-image img {
+            transform: scale(1.1);
+        }
+        
+        .game-info {
+            padding: 20px;
+        }
+        
+        .game-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        
+        .game-description {
+            color: #b2bec3;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .game-rating {
+            color: #fdcb6e;
+        }
+        
+        .game-price {
+            font-weight: 700;
+            color: var(--success-color);
+        }
+        
+        .game-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-download {
+            flex: 2;
+            background: var(--success-color);
+        }
+        
+        .btn-details {
+            flex: 1;
+            background: #636e72;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2d3436;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section p {
+            margin-bottom: 15px;
+            color: #b2bec3;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #b2bec3;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #3a3f42;
+            border-radius: 50%;
+            color: var(--light-color);
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #3a3f42;
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <h1>GameHub</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Início</a></li>
+                    <li><a href="#"><i class="fas fa-gamepad"></i> Jogos</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> Downloads</a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i> Sobre</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h2>Os melhores jogos em um só lugar</h2>
+            <p>Descubra uma vasta coleção de jogos incríveis para baixar e jogar agora. De aventuras épicas a desafios estratégicos, temos tudo o que você precisa.</p>
+            <a href="#" class="btn">Explorar Jogos</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Filters Section -->
+        <section class="filters">
+            <h3>Filtrar Jogos</h3>
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label for="category">Categoria</label>
+                    <select id="category">
+                        <option value="all">Todas as Categorias</option>
+                        <option value="action">Ação</option>
+                        <option value="adventure">Aventura</option>
+                        <option value="rpg">RPG</option>
+                        <option value="strategy">Estratégia</option>
+                        <option value="sports">Esportes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price">Preço</label>
+                    <select id="price">
+                        <option value="all">Todos os Preços</option>
+                        <option value="free">Gratuitos</option>
+                        <option value="paid">Pagos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="rating">Classificação</label>
+                    <select id="rating">
+                        <option value="all">Todas as Classificações</option>
+                        <option value="5">5 Estrelas</option>
+                        <option value="4">4+ Estrelas</option>
+                        <option value="3">3+ Estrelas</option>
+                    </select>
+                </div>
+            </div>
+            <div class="view-options">
+                <button class="view-btn active" title="Visualização em Grades">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="view-btn" title="Visualização em Lista">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Games Grid -->
+        <section class="games-grid">
+            <!-- Game 1 -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="CyberQuest">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">CyberQuest</h3>
+                    <p class="game-description">Uma aventura cyberpunk em um mundo aberto cheio de perigos e mistérios.</p>
+                    <div class="game-meta">
+                        <span class="game-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </span>
+                        <span class="game-price">Gratuito</span>
+                    </div>
+                    <div class="game-actions">
+                        <a href="#" class="btn btn-download">Download</a>
+                        <a href="#" class="btn btn-details">Detalhes</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 2 -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Kingdom Rush">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Kingdom Rush</h3>
+                    <p class="game-description">Defenda seu reino contra hordas de invasores em um jogo de estratégia viciante.</p>
+                    <div class="game-meta">
+                        <span class="game-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </span>
+                        <span class="game-price">R$ 29,90</span>
+                    </div>
+                    <div class="game-actions">
+                        <a href="#" class="btn btn-download">Comprar</a>
+                        <a href="#" class="btn btn-details">Detalhes</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Speed Racer">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Speed Racer</h3>
+                    <p class="game-description">Experimente a emoção de corridas em alta velocidade com gráficos realistas.</p>
+                    <div class="game-meta">
+                        <span class="game-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span class="game-price">R$ 49,90</span>
+                    </div>
+                    <div class="game-actions">
+                        <a href="#" class="btn btn-download">Comprar</a>
+                        <a href="#" class="btn btn-details">Detalhes</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 4 -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Mystic Legends">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Mystic Legends</h3>
+                    <p class="game-description">Entre em um mundo de fantasia repleto de magia, dragões e aventuras épicas.</p>
+                    <div class="game-meta">
+                        <span class="game-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </span>
+                        <span class="game-price">R$ 39,90</span>
+                    </div>
+                    <div class="game-actions">
+                        <a href="#" class="btn btn-download">Comprar</a>
+                        <a href="#" class="btn btn-details">Detalhes</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 5 -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Soccer Masters">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Soccer Masters</h3>
+                    <p class="game-description">Viva a emoção do futebol com gráficos impressionantes e jogabilidade realista.</p>
+                    <div class="game-meta">
+                        <span class="game-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </span>
+                        <span class="game-price">Gratuito</span>
+                    </div>
+                    <div class="game-actions">
+                        <a href="#" class="btn btn-download">Download</a>
+                        <a href="#" class="btn btn-details">Detalhes</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 6 -->
+            <div class="game-card">
+                <div class="game-image">
+                    <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80" alt="Pixel Quest">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">Pixel Quest</h3>
+                    <p class="game-description">Uma jornada retrô em pixels com desafios clássicos e cheios de nostalgia.</p>
+                    <div class="game-meta">
+                        <span class="game-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span class="game-price">R$ 19,90</span>
+                    </div>
+                    <div class="game-actions">
+                        <a href="#" class="btn btn-download">Comprar</a>
+                        <a href="#" class="btn btn-details">Detalhes</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Sobre a GameHub</h3>
+                    <p>GameHub é a sua plataforma definitiva para descobrir, baixar e jogar os melhores jogos online. Oferecemos uma experiência premium para gamers de todos os tipos.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Suporte Técnico</a></li>
+                        <li><a href="#">Perguntas Frequentes</a></li>
+                        <li><a href="#">Trabalhe Conosco</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. dos Games, 123 - São Paulo, Brasil</p>
+                    <p><i class="fas fa-phone"></i> +55 (11) 9999-8888</p>
+                    <p><i class="fas fa-envelope"></i> contato@gamehub.com</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 GameHub - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para alternar entre visualização em grade e lista
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const gamesGrid = document.querySelector('.games-grid');
+            
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove a classe active de todos os botões
+                    viewButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Adiciona a classe active ao botão clicado
+                    this.classList.add('active');
+                    
+                    // Alterna entre visualização em grade e lista
+                    if (this.querySelector('.fa-list')) {
+                        gamesGrid.classList.add('list-view');
+                    } else {
+                        gamesGrid.classList.remove('list-view');
+                    }
+                });
+            });
+            
+            // Script básico para os filtros (apresentação)
+            const filterSelects = document.querySelectorAll('select');
+            filterSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    // Em uma implementação real, aqui filtraria os jogos
+                    console.log(`Filtro alterado: ${this.id} = ${this.value}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
